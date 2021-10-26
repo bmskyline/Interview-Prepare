@@ -11,4 +11,8 @@ class Solution {
     StringBuilder invert(String s) {
         return new StringBuilder(s.replaceAll("0", "x").replaceAll("1", "0").replaceAll("x", "1"));
     }
+    /*
+    Time complexity : O(n)
+    Space complexity : O(n)
+    */
 }
