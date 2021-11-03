@@ -11,7 +11,6 @@ class Solution {
                     dp[i] = Math.min(dp[i], dp[i - x] +1);
             }
         }
-        System.out.println(Arrays.toString(dp));
         return dp[amount] == Integer.MAX_VALUE ? -1 : dp[amount];
     }
     /*
