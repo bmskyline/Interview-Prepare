@@ -1,53 +1,48 @@
 class Solution {
     public int findKthLargest(int[] nums, int k) {
-        return kthSmallest(nums, 0, nums.length - 1, k);
-    }
-    
-    public int partition(int[] arr, int low, int high) {
-        int pivot = arr[high], pivotloc = low;
-        for (int i = low; i <= high; i++) {
-            // inserting elements of less value
-            // to the left of the pivot location
-            if (arr[i] < pivot) {
-                int temp = arr[i];
-                arr[i] = arr[pivotloc];
-                arr[pivotloc] = temp;
-                pivotloc++;
+        if(nums.length == 1) return nums[0];
+
+        int left = 0;
+        int right = nums.length - 1;
+
+        while(left <= right){
+            int pivotPos = partition(nums, left, right);
+            if(pivotPos - left + 1 < k){
+                k = k - (pivotPos - left + 1);//shrink k value
+                left = pivotPos + 1;//move left to pivotPos + 1
+            }else if(pivotPos - left + 1 > k){
+                right = pivotPos - 1;//shrink right by 1 at least
+            }else{
+                return nums[pivotPos];
             }
         }
- 
-        // swapping pivot to the final pivot location
-        int temp = arr[high];
-        arr[high] = arr[pivotloc];
-        arr[pivotloc] = temp;
- 
-        return pivotloc;
+        return 0;
     }
- 
-    // finds the kth position (of the sorted array)
-    // in a given unsorted array i.e this function
-    // can be used to find both kth largest and
-    // kth smallest element in the array.
-    // ASSUMPTION: all elements in arr[] are distinct
-    public int kthSmallest(int[] arr, int low,
-                                  int high, int k)
-    {
-        // find the partition
-        int partition = partition(arr, low, high);
- 
-        // if partition value is equal to the kth position,
-        // return value at k.
-        if (partition == arr.length - k)
-            return arr[partition];
- 
-        // if partition value is less than kth position,
-        // search right side of the array.
-        else if (partition < arr.length - k)
-            return kthSmallest(arr, partition + 1, high, k);
- 
-        // if partition value is more than kth position,
-        // search left side of the array.
-        else
-            return kthSmallest(arr, low, partition - 1, k);
+
+    //make elements value between [0, leftBound] are all >= pivot
+    private int partition(int[] array, int left, int right){
+        int pivotIndex = left + (right - left)/2;
+        int pivot = array[pivotIndex];
+        swap(array, pivotIndex, right);
+
+        int leftBound = left;
+        int rightBound = right - 1;
+        while(leftBound <= rightBound){
+            if(array[leftBound] >= pivot){
+                leftBound++;
+            }else if(array[rightBound] < pivot){
+                rightBound--;
+            }else{
+                swap(array, leftBound++, rightBound--);
+            }
+        }
+        swap(array, leftBound, right);
+        return leftBound;
+    }
+
+    private void swap(int[] array, int left, int right){
+        int temp = array[left];
+        array[left] = array[right];
+        array[right] = temp;
     }
 }
