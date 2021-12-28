@@ -13,26 +13,27 @@ class Solution {
         10 - 33 + 29 = 6
         10 - 33 + 28 = 5
         */
-        int[] pre = new int[nums.length];
-        pre[0] = nums[0];
-        Map<Integer, Integer> map = new HashMap();
-        map.put(nums[0], 0);
-        for (int i = 1; i < pre.length; i++) {
-            pre[i] = pre[i - 1] + nums[i];
-            map.put(pre[i], i);
+        int maxLength = -1;
+        int sum = 0;
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+        map.put(0, -1);
+        int length = nums.length;
+        int[] prefixSums = new int[length];
+        for (int i = 0; i < length; i++) {
+            sum += nums[i];
+            prefixSums[i] = sum;
+            map.put(sum, i);
         }
-        int min = Integer.MAX_VALUE;
-        for (int i = pre.length - 1; i >= 0; i--) {
-            if (map.containsKey(x - pre[pre.length - 1] + pre[i])) {
-                min = Math.min(min, pre.length - i - 1 + map.get(x - pre[pre.length - 1] + pre[i]) + 1);
-            }
-            if (pre[pre.length - 1] - pre[i] == x) {
-                min = Math.min(min, pre.length - i - 1);
-            }
-            map.remove(pre[i]);
-            
+        int remainSum = sum - x;
+        for (int i = 0; i < length; i++) {
+            int prefixSum = prefixSums[i];
+            if (map.containsKey(prefixSum - remainSum))
+                maxLength = Math.max(maxLength, i - map.get(prefixSum - remainSum));
         }
-        return min == Integer.MAX_VALUE ? -1 : min;
+        if (maxLength == -1)
+            return -1;
+        else
+            return length - maxLength;
     }
     
 }
