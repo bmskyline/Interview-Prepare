@@ -12,7 +12,11 @@ class Solution {
             return map.get(key);
         int min = Integer.MAX_VALUE;
         for (int i = from + (to - from) / 2; i <= to; i++) {
-            min = Math.min(min, Math.max(cal(from, i - 1, map), cal(i + 1, to, map)) + i);
+            int left = cal(from, i - 1, map);
+            int right = cal(i + 1, to, map);
+            min = Math.min(min, Math.max(left, right) + i);
+            if (left > right)
+                break;
         }
         map.put(key, min);
         return map.get(key);
