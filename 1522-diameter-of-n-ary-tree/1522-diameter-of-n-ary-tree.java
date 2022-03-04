@@ -43,6 +43,6 @@ class Solution {
             }
         }
         max = Math.max(first + second, max);
-        return Math.max(first, second) + 1;
+        return first + 1;
     }
 }
