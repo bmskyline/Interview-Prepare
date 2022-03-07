@@ -9,32 +9,18 @@
  */
 class Solution {
     public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
-        return findNextNode(root, new Stack(), p);
-    }
-    
-    TreeNode findNextNode(TreeNode root, Stack<TreeNode> stack, TreeNode p) {
-        if (root == null)
-            return null;
-        if (root.val == p.val) {
-            if (root.right == null) {
-                while(!stack.isEmpty() && stack.peek().val < root.val)
-                    stack.pop();
-                if (stack.isEmpty())
-                    return null;
-                return stack.pop();
+        TreeNode successor = null;
+        
+        while (root != null) {
+            
+            if (p.val >= root.val) {
+                root = root.right;
             } else {
-                TreeNode right = root.right;
-                while (right.left != null) {
-                    right = right.left;
-                }
-                return right;
+                successor = root;
+                root = root.left;
             }
-        } else if (p.val < root.val) {
-            stack.push(root);
-            return findNextNode(root.left, stack, p);
-        } else {
-            stack.push(root);
-            return findNextNode(root.right, stack, p);
         }
+        
+        return successor;
     }
 }
