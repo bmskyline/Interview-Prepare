@@ -1,24 +1,27 @@
 class Solution {
     public boolean differByOne(String[] dict) {
-        long[] hash = new long[dict.length];
-        long MOD = (long) Math.pow(10, 11) + 7;
+        Long[] hashTable = new Long[dict.length];
         for (int i = 0; i < dict.length; i++) {
-            for (int j = 0; j < dict[i].length(); j++) {
-                hash[i] = (hash[i] * 26 + dict[i].charAt(j)) % MOD;
+            String w = dict[i];
+            long hash = 0;
+            for (int j = 0; j < w.length(); j++) {
+                hash = hash * 26 + (w.charAt(j) - 'a');
+
             }
+            hashTable[i] = hash;
         }
-        long mult = 1;
-        Set<Long> set = new HashSet();
-        for (int j = dict[0].length() - 1; j >= 0; --j) {
+        Set<Long> set = new HashSet<>();
+        long base = 1;
+        for (int i = dict[0].length() - 1; i >= 0; i--) {
             set.clear();
-            for (int i = 0; i < dict.length; i++) {
-                long h = (MOD + hash[i] - (long)mult * (dict[i].charAt(j) - 'a') % MOD) % MOD;
-                if (set.contains(h)) {
+            for (int j = 0; j < dict.length; j++) {
+                long cur = hashTable[j] - (dict[j].charAt(i) - 'a') * base;
+                if (set.contains(cur)) {
                     return true;
                 }
-                set.add(h);
+                set.add(cur);
             }
-            mult = 26 * mult % MOD;
+            base *= 26;
         }
         return false;
     }
