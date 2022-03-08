@@ -11,10 +11,9 @@ class Node {
 class Solution {
     public Node inorderSuccessor(Node node) {
         if (node.right == null) {
-            Node parent = node.parent;
-            while (parent != null &&  parent.val < node.val)
-                parent = parent.parent;
-            return parent;
+            while (node.parent != null && node.parent.right == node)
+                node = node.parent;
+            return node.parent;
         } else {
             Node right = node.right;
             while (right.left != null) {
