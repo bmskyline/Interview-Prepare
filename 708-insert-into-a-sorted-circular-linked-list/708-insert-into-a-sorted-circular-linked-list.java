@@ -31,19 +31,13 @@ class Solution {
                 pos.next = insert;
                 return head;
             }
-            if (pos.val > pos.next.val && pos.val <= insertVal && pos.next.val <= insertVal) {
-                insert.next = pos.next; 
-                pos.next = insert;
-                return head;
-            }
-            if (pos.val > pos.next.val && pos.val > insertVal && pos.next.val > insertVal) {
+            if (pos.val > pos.next.val && (pos.val <= insertVal || pos.next.val >= insertVal)) {
                 insert.next = pos.next; 
                 pos.next = insert;
                 return head;
             }
             pos = pos.next;
         }
-        //System.out.println(pos.val +"  "+largest.val);
         insert.next = pos.next; 
         pos.next = insert;
         
