@@ -19,9 +19,11 @@
 class Solution {
     Map<Node, NodeCopy> map = new HashMap();
     public NodeCopy copyRandomBinaryTree(Node root) {
-        NodeCopy res = cop(root);
+        if (root == null)
+            return null;
+        cop(root);
         random(root);
-        return res;
+        return map.get(root);
     }
     
     void random(Node root) {
@@ -29,17 +31,18 @@ class Solution {
             return;
         NodeCopy copy = map.get(root);
         copy.random = map.get(root.random);
+        copy.left = map.get(root.left);
+        copy.right = map.get(root.right);
         random(root.left);
         random(root.right);
     }
     
-    public NodeCopy cop(Node root) {
+    public void cop(Node root) {
         if (root == null)
-            return null;
-        NodeCopy copy = map.getOrDefault(root, new NodeCopy(root.val));
+            return;
+        NodeCopy copy = new NodeCopy(root.val);
         map.put(root, copy);
-        copy.left = cop(root.left);
-        copy.right = cop(root.right);
-        return copy;
+        cop(root.left);
+        cop(root.right);
     }
 }
