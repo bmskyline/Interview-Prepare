@@ -24,8 +24,6 @@ class Solution {
                 res.add(list);
             } else {
                 List<Integer> last = res.get(res.size() - 1);
-                if (last.get(0) == 132)
-                    System.out.println("");
                 if (list.get(0).equals(last.get(0))) {
                     last.set(1, last.get(1) + list.get(1));
                     res.set(res.size() - 1, last);
