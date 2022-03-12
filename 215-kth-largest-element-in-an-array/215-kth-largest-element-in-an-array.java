@@ -1,39 +1,48 @@
 class Solution {
     public int findKthLargest(int[] nums, int k) {
-        /*
-             i
-        5  6 1 3 2 4
-        pivot  = 4
-        */
-        int l = 0;
-        int r = nums.length - 1;
-        int j = 0;
-        while (l <= r) {
-            j = quickSelect(nums, l, r);
-            if (j == k - 1) {
-                return nums[j];
-            } else if (j < k - 1) {
-                l = j + 1;
-            } else {
-                r = j - 1;
+        if(nums.length == 1) return nums[0];
+
+        int left = 0;
+        int right = nums.length - 1;
+
+        while(left <= right){
+            int pivotPos = partition(nums, left, right);
+            if(pivotPos - left + 1 < k){
+                k = k - (pivotPos - left + 1);//shrink k value
+                left = pivotPos + 1;//move left to pivotPos + 1
+            }else if(pivotPos - left + 1 > k){
+                right = pivotPos - 1;//shrink right by 1 at least
+            }else{
+                return nums[pivotPos];
             }
         }
-        return nums[k-1];
+        return 0;
     }
-    
-    int quickSelect(int[] nums, int l, int r) {
-        int pivot = nums[r];
-        for (int i = l; i < r; i++) {
-            if (nums[i] >= pivot) {
-                int temp = nums[l];
-                nums[l] = nums[i];
-                nums[i] = temp;
-                l++;
+
+    //make elements value between [0, leftBound] are all >= pivot
+    private int partition(int[] array, int left, int right){
+        int pivotIndex = left + (right - left)/2;
+        int pivot = array[pivotIndex];
+        swap(array, pivotIndex, right);
+
+        int leftBound = left;
+        int rightBound = right - 1;
+        while(leftBound <= rightBound){
+            if(array[leftBound] >= pivot){
+                leftBound++;
+            }else if(array[rightBound] < pivot){
+                rightBound--;
+            }else{
+                swap(array, leftBound++, rightBound--);
             }
         }
-        int temp = nums[l];
-        nums[l] = nums[r];
-        nums[r] = temp;
-        return l;
+        swap(array, leftBound, right);
+        return leftBound;
+    }
+
+    private void swap(int[] array, int left, int right){
+        int temp = array[left];
+        array[left] = array[right];
+        array[right] = temp;
     }
 }
