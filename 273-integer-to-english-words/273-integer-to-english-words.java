@@ -26,12 +26,13 @@ class Solution {
     }
     
     String threeDigit(int num) {
+        StringBuilder s = new StringBuilder();
         if (num > 99) {
-            return threeDigit(num/100) + "Hundred " + threeDigit(num%100);
+            return s.append(threeDigit(num/100)).append("Hundred ").append(threeDigit(num%100)).toString();
         } else if (num > 19){
-            return two[num/10 - 2] +" "+ threeDigit(num%10);
+            return s.append(two[num/10 - 2]).append(" ").append(threeDigit(num%10)).toString();
         } else if (num > 0){
-            return one[num - 1]+ " ";
+            return s.append(one[num - 1]).append(" ").toString();
         } return "";
     }
 }
