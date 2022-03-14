@@ -1,7 +1,6 @@
 class Solution {
-    String[] one = new String[] {"", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"};
-        String[] two = new String[] {"","Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"};
-        String[] three = new String[] {"Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
+    String[] one = new String[] {"One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
+        String[] two = new String[] {"Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"};
     String[] four = new String[] {"", "Thousand", "Million", "Billion"};
     public String numberToWords(int num) {
         /*
@@ -30,11 +29,9 @@ class Solution {
         if (num > 99) {
             return threeDigit(num/100) + "Hundred " + threeDigit(num%100);
         } else if (num > 19){
-            return two[num/10 - 1] +" "+ threeDigit(num%10);
-        } else if (num > 9) {
-            return three[num-10] + " ";
+            return two[num/10 - 2] +" "+ threeDigit(num%10);
         } else if (num > 0){
-            return one[num]+ " ";
+            return one[num - 1]+ " ";
         } return "";
     }
 }
