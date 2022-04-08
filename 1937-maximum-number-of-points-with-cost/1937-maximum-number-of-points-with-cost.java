@@ -10,7 +10,7 @@ class Solution {
             long runMax = 0;
             for (int j = 0; j < m; j++) {
                 runMax = Math.max(runMax - 1, pre[j]);
-                dp[j] = Math.max(dp[j], runMax + p[i][j]);
+                dp[j] = runMax + p[i][j];
             }
             for (int j = m - 1; j >= 0; j--) {
                 runMax = Math.max(runMax - 1, pre[j]);
